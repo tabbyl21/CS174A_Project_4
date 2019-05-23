@@ -19,14 +19,22 @@ class Solar_System extends Scene
                                                         // definitions onto the GPU.  NOTE:  Only do this ONCE per shape.
                                                         // Don't define blueprints for shapes in display() every frame.
 
+     const Subdivision_Sphere_Flat = Subdivision_Sphere.prototype.make_flat_shaded_version();
                                                 // TODO (#1):  Complete this list with any additional shapes you need.
       this.shapes = { 'box' : new Cube(),
                    'ball_4' : new Subdivision_Sphere( 4 ),
-                     'star' : new Planar_Star() };
+                     'star' : new Planar_Star(),
+                      'b1' : new Subdivision_Sphere(1),
+                      'b2' : new Subdivision_Sphere(2),
+                      'b3' : new Subdivision_Sphere_Flat(3),
+                      'b4' : new Subdivision_Sphere(4),
+                      'b5' : new Subdivision_Sphere(5),
+                      'b6' : new Subdivision_Sphere(6)};
+
 
                                                         // TODO (#1d): Modify one sphere shape's existing texture 
                                                         // coordinates in place.  Multiply them all by 5.
-      // this.shapes.ball_repeat.arrays.texture_coord.forEach( coord => coord
+      // this.shapes.b5.arrays.texture_coord.forEach( coord => coord
       
                                                               // *** Shaders ***
 
@@ -61,7 +69,7 @@ class Solar_System extends Scene
                                     { texture: new Texture( "assets/earth.gif" ),
                                       ambient: 0, diffusivity: 1, specularity: 1, color: Color.of( .4,.4,.4,1 ) } ),
                       black_hole: new Material( black_hole_shader ),
-                             sun: new Material( sun_shader, { ambient: 1, color: Color.of( 0,0,0,1 ) } )
+                             sun: new Material( phong_shader, { ambient: 1, color: Color.of( 0,0,0,1 ) } )
                        };
 
                                   // Some setup code that tracks whether the "lights are on" (the stars), and also
@@ -190,19 +198,19 @@ class Solar_System extends Scene
       // ***** BEGIN TEST SCENE *****               
                                           // TODO:  Delete (or comment out) the rest of display(), starting here:
 
-      program_state.set_camera( Mat4.translation([ 0,3,-10 ]) );
-      const angle = Math.sin( t );
-      const light_position = Mat4.rotation( angle, [ 1,0,0 ] ).times( Vec.of( 0,-1,1,0 ) );
-      program_state.lights = [ new Light( light_position, Color.of( 1,1,1,1 ), 1000000 ) ];
-      model_transform = Mat4.identity();
-      this.shapes.box.draw( context, program_state, model_transform, this.materials.plastic.override( yellow ) );
-      model_transform.post_multiply( Mat4.translation([ 0, -2, 0 ]) );
-      this.shapes.ball_4.draw( context, program_state, model_transform, this.materials.metal_earth.override( blue ) );
-      model_transform.post_multiply( Mat4.rotation( t, Vec.of( 0,1,0 ) ) )
-      model_transform.post_multiply( Mat4.rotation( 1, Vec.of( 0,0,1 ) )
-                             .times( Mat4.scale      ([ 1,   2, 1 ]) )
-                             .times( Mat4.translation([ 0,-1.5, 0 ]) ) );
-      this.shapes.box.draw( context, program_state, model_transform, this.materials.plastic_stars.override( yellow ) );
+     // program_state.set_camera( Mat4.translation([ 0,3,-10 ]) );
+      //const angle = Math.sin( t );
+      //const light_position = Mat4.rotation( angle, [ 1,0,0 ] ).times( Vec.of( 0,-1,1,0 ) );
+      //program_state.lights = [ new Light( light_position, Color.of( 1,1,1,1 ), 1000000 ) ];
+      //model_transform = Mat4.identity();
+      //this.shapes.box.draw( context, program_state, model_transform, this.materials.plastic.override( yellow ) );
+      //model_transform.post_multiply( Mat4.translation([ 0, -2, 0 ]) );
+      //this.shapes.ball_4.draw( context, program_state, model_transform, this.materials.metal_earth.override( blue ) );
+      //model_transform.post_multiply( Mat4.rotation( t, Vec.of( 0,1,0 ) ) )
+      //model_transform.post_multiply( Mat4.rotation( 1, Vec.of( 0,0,1 ) )
+        //                     .times( Mat4.scale      ([ 1,   2, 1 ]) )
+       //                      .times( Mat4.translation([ 0,-1.5, 0 ]) ) );
+     // this.shapes.box.draw( context, program_state, model_transform, this.materials.plastic_stars.override( yellow ) );
 
       // ***** END TEST SCENE *****
 
